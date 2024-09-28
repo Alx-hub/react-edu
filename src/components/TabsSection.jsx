@@ -24,7 +24,7 @@ export default function TabsSection() {
             }}>Программа</Button>
             <Button isActive={content === 'education'} onClick={() => {
                 handleClick('education')
-            }}>Программа</Button>
+            }}>Образование</Button>
             <p>{differences[content]}</p>
         </section>
 
