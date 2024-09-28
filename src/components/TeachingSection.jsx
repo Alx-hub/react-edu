@@ -9,6 +9,6 @@ export default function TeachingSection(props) {
             <ul>
                 {ways.map((way) => (<WayToTeach key={way.title} {...way} />))}
             </ul>
-            </section>
+        </section>
     )
 }
