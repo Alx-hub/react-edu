@@ -1,16 +1,22 @@
 import Button from "./Button/Button.jsx";
-import React from "react";
+import React, {useState} from "react";
 
 export default function FeedbackSection() {
-    const [name, setName] = React.useState("");
-    const [hasError, setHasError] = React.useState(false);
+    const [form, setForm] = useState({
+        name: '',
+        hasError: false,
+        reason: 'help'
+    })
 
     function handleSetName(event) {
-        setName(event.target.value);
-        setHasError(event.target.value.trim().length === 0)
+        setForm((prev) => ({
+            ...prev,
+            name: event.target.value,
+            hasError: event.target.value.trim().length === 0
+        }))
     }
 
-    const [reason, setReason] = React.useState("error");
+
     return (<section>
         <h3>Обратная Связь</h3>
 
@@ -21,18 +27,21 @@ export default function FeedbackSection() {
                 type="text"
                 className='control'
                 style={{
-                    border: hasError ? '1px solid red' : null,
+                    border: form.hasError ? '1px solid red' : null,
                 }}
-                value={name} onChange={handleSetName}
+                value={form.name} onChange={handleSetName}
             />
             <label htmlFor="reason">Причина Обращения</label>
-            <select id="reason" className='control' value={reason}
-                    onChange={(event) => setReason(event.target.value)}>
+            <select id="reason" className='control' value={form.reason}
+                    onChange={(event) =>
+                        setForm((prev)=>({...prev,reason: event.target.value}))
+                    }
+            >
                 <option value="error">Ошибка</option>
                 <option value="help">Нужна помощь</option>
                 <option value="suggest">Предложение</option>
             </select>
-            <Button disabled={hasError} isActive={!hasError}>Отправить</Button>
+            <Button disabled={form.hasError} isActive={!form.hasError}>Отправить</Button>
         </form>
     </section>)
 }
