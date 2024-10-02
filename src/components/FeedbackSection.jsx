@@ -1,5 +1,5 @@
 import Button from "./Button/Button.jsx";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 
 export default function FeedbackSection() {
     const [form, setForm] = useState({
@@ -14,6 +14,31 @@ export default function FeedbackSection() {
             name: event.target.value,
             hasError: event.target.value.trim().length === 0
         }))
+    }
+
+
+
+    function StateVsRef() {
+        const inputRef = useRef();
+        const [show, setShow] = useState(false);
+        function handleKeyDown(event) {
+            if (event.key === 'Enter') {
+                setShow(true);
+            }
+        }
+
+        return (
+            <>
+                <h3>Input Value: {show && inputRef.current.value} </h3>
+                <input
+                    ref={inputRef}
+                    type='text'
+                    className='control'
+                    onKeyDown={handleKeyDown}
+                />
+            </>
+
+        )
     }
 
 
@@ -34,7 +59,7 @@ export default function FeedbackSection() {
             <label htmlFor="reason">Причина Обращения</label>
             <select id="reason" className='control' value={form.reason}
                     onChange={(event) =>
-                        setForm((prev)=>({...prev,reason: event.target.value}))
+                        setForm((prev) => ({...prev, reason: event.target.value}))
                     }
             >
                 <option value="error">Ошибка</option>
@@ -43,5 +68,6 @@ export default function FeedbackSection() {
             </select>
             <Button disabled={form.hasError} isActive={!form.hasError}>Отправить</Button>
         </form>
+        <StateVsRef/>
     </section>)
 }
