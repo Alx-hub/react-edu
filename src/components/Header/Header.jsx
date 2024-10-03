@@ -1,5 +1,5 @@
 import logo from '/logo-name.svg'
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { styled } from 'styled-components';
 
 //import './Header.css'
@@ -16,7 +16,14 @@ const HeaderContainer = styled.header`
 export default function Head() {
     const name = 'Result'
     const [time, setTime] = useState(new Date())
-    setInterval(() => setTime(new Date()), 1000)
+
+    useEffect(()=>{
+       const timer = setInterval(() => setTime(new Date()), 1000)
+        return () => {
+           clearInterval(timer)
+        }
+    })
+
     return (
         <HeaderContainer>
             <img src={logo} alt={name}/>
